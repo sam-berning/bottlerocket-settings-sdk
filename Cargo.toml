@@ -3,5 +3,6 @@ resolver = "2"
 
 members = [
     "bottlerocket-settings-sdk",
+    "bottlerocket-settings-sdk/derive",
     "bottlerocket-template-helper",
 ]

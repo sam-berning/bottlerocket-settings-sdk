@@ -1,7 +1,7 @@
 use bottlerocket_settings_sdk::{
-    BottlerocketSetting, GenerateResult, LinearMigratorExtensionBuilder, LinearlyMigrateable,
-    NoMigration, SettingsModel,
+    BottlerocketSetting, GenerateResult, LinearMigratorExtensionBuilder, SettingsModel,
 };
+use bottlerocket_settings_sdk::settings_derive::LinearlyMigrateable;
 use serde::{Deserialize, Serialize};
 use snafu::Snafu;
 
@@ -27,10 +27,10 @@ pub struct MyError;
 
 type Result<T> = std::result::Result<T, MyError>;
 
-#[derive(Debug, Serialize, Deserialize, Default, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Default, PartialEq, Eq, LinearlyMigrateable)]
 pub struct ModelA;
 
-#[derive(Debug, Serialize, Deserialize, Default, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Default, PartialEq, Eq, LinearlyMigrateable)]
 pub struct ModelB;
 
 impl SettingsModel for ModelA {
@@ -57,20 +57,6 @@ impl SettingsModel for ModelA {
     }
 }
 
-impl LinearlyMigrateable for ModelA {
-    type ForwardMigrationTarget = NoMigration;
-
-    type BackwardMigrationTarget = NoMigration;
-
-    fn migrate_forward(&self) -> Result<Self::ForwardMigrationTarget> {
-        NoMigration::no_defined_migration()
-    }
-
-    fn migrate_backward(&self) -> Result<Self::BackwardMigrationTarget> {
-        NoMigration::no_defined_migration()
-    }
-}
-
 impl SettingsModel for ModelB {
     type PartialKind = Self;
     type ErrorKind = MyError;
@@ -92,19 +78,5 @@ impl SettingsModel for ModelB {
 
     fn validate(_: Self, _: Option<serde_json::Value>) -> Result<()> {
         unimplemented!()
-    }
-}
-
-impl LinearlyMigrateable for ModelB {
-    type ForwardMigrationTarget = NoMigration;
-
-    type BackwardMigrationTarget = NoMigration;
-
-    fn migrate_forward(&self) -> Result<Self::ForwardMigrationTarget> {
-        NoMigration::no_defined_migration()
-    }
-
-    fn migrate_backward(&self) -> Result<Self::BackwardMigrationTarget> {
-        NoMigration::no_defined_migration()
     }
 }

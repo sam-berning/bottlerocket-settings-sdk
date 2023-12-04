@@ -38,6 +38,8 @@ pub use migrate::{
 
 pub use model::{BottlerocketSetting, GenerateResult, SettingsModel};
 
+pub use settings_derive;
+
 #[doc(hidden)]
 #[cfg(feature = "extension")]
 pub mod example;
