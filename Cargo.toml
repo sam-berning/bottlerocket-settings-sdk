@@ -3,5 +3,7 @@ resolver = "2"
 
 members = [
     "bottlerocket-settings-sdk",
+    "bottlerocket-settings-plugins/opaque-derive",
+    "bottlerocket-settings-plugins/opaque-settings",
     "bottlerocket-template-helper",
 ]
